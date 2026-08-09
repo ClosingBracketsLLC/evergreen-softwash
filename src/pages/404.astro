@@ -1,0 +1,47 @@
+---
+import Base from '@layouts/Base.astro';
+import Button from '@components/Button.astro';
+import Waterline from '@components/Waterline.astro';
+---
+
+<Base
+  title="Page Not Found"
+  description="The page you're looking for has been washed away. Head back to Evergreen Softwash."
+>
+  <section class="nf tone-dark">
+    <div class="container nf-inner">
+      <p class="eyebrow">404</p>
+      <h1>This page washed away</h1>
+      <Waterline />
+      <p class="lede">
+        The address may have changed, or it never existed. Everything worth seeing is a click
+        from here.
+      </p>
+      <div class="nf-actions">
+        <Button href="/" variant="ice">Back to home</Button>
+        <Button href="/services/" variant="ghost">Browse services</Button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    display: grid;
+    align-items: center;
+    min-height: 82svh;
+    padding-block: 10rem 5rem;
+  }
+
+  .nf h1 {
+    color: var(--white);
+    margin-block-start: 0.75rem;
+  }
+
+  .nf-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-block-start: 2.25rem;
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+/**
+ * Signature brand device: a thin ice-blue line carrying a single droplet —
+ * the logo's water drop distilled into a divider. Used under section heads.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<div class:list={['waterline', className]} aria-hidden="true">
+  <svg width="88" height="14" viewBox="0 0 88 14" fill="none">
+    <line x1="0" y1="7" x2="34" y2="7" stroke="url(#wl-l)" stroke-width="1"></line>
+    <path
+      d="M44 1.5c2.6 3.1 4.4 5.4 4.4 7.4a4.4 4.4 0 1 1-8.8 0c0-2 1.8-4.3 4.4-7.4Z"
+      fill="var(--ice)"
+      fill-opacity="0.9"></path>
+    <line x1="54" y1="7" x2="88" y2="7" stroke="url(#wl-r)" stroke-width="1"></line>
+    <defs>
+      <linearGradient id="wl-l" x1="0" y1="0" x2="34" y2="0" gradientUnits="userSpaceOnUse">
+        <stop stop-color="var(--ice)" stop-opacity="0"></stop>
+        <stop offset="1" stop-color="var(--ice)"></stop>
+      </linearGradient>
+      <linearGradient id="wl-r" x1="54" y1="0" x2="88" y2="0" gradientUnits="userSpaceOnUse">
+        <stop stop-color="var(--ice)"></stop>
+        <stop offset="1" stop-color="var(--ice)" stop-opacity="0"></stop>
+      </linearGradient>
+    </defs>
+  </svg>
+</div>
+
+<style>
+  .waterline {
+    display: flex;
+    margin-block: 1.1rem;
+  }
+
+  /* On pale sections the ice line needs a deeper tone to stay visible */
+  :global(.tone-pale) .waterline svg path,
+  :global(.tone-light) .waterline svg path {
+    fill: var(--river);
+  }
+
+  :global(.tone-pale) .waterline,
+  :global(.tone-light) .waterline {
+    --ice: var(--river);
+  }
+</style>

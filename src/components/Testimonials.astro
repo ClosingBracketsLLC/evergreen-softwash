@@ -1,0 +1,81 @@
+---
+import { testimonials } from '@data/testimonials';
+import SectionHead from './SectionHead.astro';
+---
+
+<section class="section tone-dark testimonials">
+  <div class="container">
+    <SectionHead
+      eyebrow="Word travels"
+      title="Trusted with the finest surfaces in the Sound"
+      lede="No paid reviews, no incentives. Just clients who called us back the next season."
+    />
+    <div class="testimonial-grid">
+      {
+        testimonials.map((t) => (
+          <figure class="testimonial" data-reveal>
+            <blockquote>
+              <p>“{t.quote}”</p>
+            </blockquote>
+            <figcaption>
+              <strong>{t.name}</strong>
+              <span>{t.detail}</span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .testimonial {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: var(--pine-900);
+    border: 1px solid rgb(196 249 255 / 0.12);
+    border-radius: var(--radius-lg);
+  }
+
+  .testimonial blockquote {
+    flex: 1;
+  }
+
+  .testimonial blockquote p {
+    font-size: var(--text-lg);
+    line-height: 1.55;
+    color: color-mix(in srgb, var(--seaglass) 92%, transparent);
+  }
+
+  .testimonial figcaption {
+    display: grid;
+    gap: 0.15rem;
+    padding-block-start: 1.25rem;
+    border-block-start: 1px solid rgb(196 249 255 / 0.14);
+  }
+
+  .testimonial figcaption strong {
+    color: var(--white);
+  }
+
+  .testimonial figcaption span {
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ice);
+  }
+
+  @media (max-width: 56rem) {
+    .testimonial-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

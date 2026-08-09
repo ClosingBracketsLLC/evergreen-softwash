@@ -1,0 +1,201 @@
+---
+import { Image } from 'astro:assets';
+import Base from '@layouts/Base.astro';
+import SectionHead from '@components/SectionHead.astro';
+import CtaBand from '@components/CtaBand.astro';
+import Waterline from '@components/Waterline.astro';
+import { images } from '@data/images';
+import { site } from '@config';
+
+const values = [
+  {
+    title: 'Restraint before power',
+    detail:
+      'The right answer is usually less pressure, better chemistry, and more patience. We train crews to reach for the gentlest method that works — and to know why.',
+  },
+  {
+    title: 'Documented, always',
+    detail:
+      'Pre-work condition photos, masked-area checklists, closing walkthroughs. If it matters to your insurer, your HOA, or your maintenance log, it is written down.',
+  },
+  {
+    title: 'Our own people',
+    detail:
+      'Every job is performed by uniformed Evergreen crew members — background-checked, trained in-house, never subcontracted.',
+  },
+  {
+    title: 'Honest scope',
+    detail:
+      'If a surface doesn’t need treatment this season, we say so. Clients keep calling back precisely because we don’t sell them what they don’t need.',
+  },
+];
+---
+
+<Base
+  title="About Us — The Crew Behind the Clean"
+  description="Evergreen Softwash is a licensed, insured exterior-care company serving greater Puget Sound with soft washing, pressure washing, and concierge detailing for fine properties."
+  ogImage="manor"
+>
+  <section class="about-hero tone-dark">
+    <div class="container about-hero-grid">
+      <div>
+        <p class="eyebrow">About Evergreen Softwash</p>
+        <h1>Quiet perfectionists,<br />armed with water</h1>
+        <Waterline />
+        <p class="lede">
+          We started with a soft-wash rig, a ladder, and a conviction: the properties people
+          love most deserve cleaning crews who love the craft as much. Today we care for
+          estates, aircraft, and vessels across the Sound — with the same conviction.
+        </p>
+      </div>
+      <figure data-reveal>
+        <Image
+          src={images.craft}
+          alt="Close-up of a technician's gloved hand adjusting a brass soft-wash nozzle, water droplets in the air"
+          widths={[480, 720, 1000]}
+          sizes="(max-width: 60rem) 92vw, 40vw"
+          loading="eager"
+          quality="mid"
+        />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        eyebrow="What we believe"
+        title="Four habits that never wash off"
+      />
+      <div class="values-grid">
+        {
+          values.map((v) => (
+            <article class="value-card" data-reveal>
+              <h3>{v.title}</h3>
+              <p>{v.detail}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section tone-pale">
+    <div class="container about-story-grid">
+      <figure data-reveal>
+        <Image
+          src={images.manor}
+          alt="Evergreen technician rinsing a limestone terrace balustrade at a lakeside stone manor"
+          widths={[640, 960, 1400]}
+          sizes="(max-width: 60rem) 92vw, 48vw"
+          loading="lazy"
+          quality="mid"
+        />
+      </figure>
+      <div>
+        <SectionHead
+          eyebrow="Where we work"
+          title="Built for the Northwest"
+          lede="Moss, algae, salt air, and nine months of rain — Puget Sound is one of the hardest climates in the country on exterior surfaces. It's also home. Our methods, chemistry, and schedules are tuned to this climate and nowhere else."
+        />
+        <p class="about-body" data-reveal>
+          From {site.address.locality} we serve the waterfront communities, island properties,
+          and estate neighborhoods of the greater Sound. Aircraft crews work from Tacoma
+          Narrows and Boeing Field; marine crews cover the marinas from Des Moines to
+          Bainbridge. Wherever you keep the things you care for, we come to them.
+        </p>
+        <p class="about-body" data-reveal>
+          Fully licensed and insured for residential, aviation, and marine work — certificates
+          furnished before we arrive, not after you ask.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Meet us at your property"
+    lede="The best way to judge a crew is to watch one work. Book a walkthrough and we'll show you exactly what your surfaces need — and what they don't."
+  />
+</Base>
+
+<style>
+  .about-hero {
+    padding-block: 11rem 5rem;
+  }
+
+  .about-hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: center;
+  }
+
+  .about-hero h1 {
+    color: var(--white);
+    margin-block-start: 1rem;
+  }
+
+  .about-hero figure img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .value-card {
+    padding: 2rem;
+    background: var(--seaglass);
+    border-radius: var(--radius-lg);
+    border-inline-start: 3px solid var(--river);
+  }
+
+  .value-card h3 {
+    margin-block-end: 0.6rem;
+  }
+
+  .value-card p {
+    color: var(--ink-soft);
+    font-size: var(--text-sm);
+    max-width: 52ch;
+  }
+
+  .about-story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: center;
+  }
+
+  .about-story-grid figure img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .about-body {
+    color: var(--ink-soft);
+    max-width: 58ch;
+  }
+
+  .about-body + .about-body {
+    margin-block-start: 1rem;
+  }
+
+  @media (max-width: 60rem) {
+    .about-hero-grid,
+    .about-story-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .values-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

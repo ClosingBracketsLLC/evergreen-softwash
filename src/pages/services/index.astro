@@ -1,0 +1,125 @@
+---
+import Base from '@layouts/Base.astro';
+import SectionHead from '@components/SectionHead.astro';
+import ServiceCard from '@components/ServiceCard.astro';
+import PriceCard from '@components/PriceCard.astro';
+import CtaBand from '@components/CtaBand.astro';
+import { services } from '@data/services';
+import { site } from '@config';
+
+const breadcrumbs = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.domain },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: `${site.domain}/services/` },
+  ],
+};
+---
+
+<Base
+  title="Services & Pricing — Soft Washing, Pressure Washing & Detailing"
+  description="Transparent starting prices for estate-grade exterior care: house and roof soft washing, pressure washing, and luxury vehicle, aircraft, and watercraft detailing."
+  schema={[breadcrumbs]}
+>
+  <section class="page-hero tone-dark">
+    <div class="container">
+      <SectionHead
+        as="h1"
+        eyebrow="Services & pricing"
+        title="A suite of services. No surprises."
+        lede="Starting prices are published below — every project is confirmed with a fixed written quote before a drop of water moves."
+      />
+    </div>
+  </section>
+
+  <section class="section tone-pale">
+    <div class="container-wide">
+      <div class="services-grid">
+        {services.map((service, i) => <ServiceCard service={service} loading={i < 3 ? 'eager' : 'lazy'} />)}
+      </div>
+    </div>
+  </section>
+
+  {
+    services.map((service, i) => (
+      <section
+        class:list={['section', i % 2 === 1 && 'tone-pale']}
+        id={service.slug}
+        aria-labelledby={`pricing-${service.slug}`}
+      >
+        <div class="container">
+          <header class="pricing-head" data-reveal>
+            <p class="eyebrow">{service.eyebrow}</p>
+            <h2 id={`pricing-${service.slug}`}>{service.name}</h2>
+          </header>
+          <div class="pricing-grid">
+            {service.pricing.map((tier) => (
+              <PriceCard tier={tier} />
+            ))}
+          </div>
+          <p class="pricing-note" data-reveal>
+            {service.pricingNote}{' '}
+            <a href={`/services/${service.slug}/`}>More about {service.name.toLowerCase()} →</a>
+          </p>
+        </div>
+      </section>
+    ))
+  }
+
+  <CtaBand
+    title="Not sure which service you need?"
+    lede="Describe the property or craft and we'll recommend the right approach — honestly, even when that means less work for us."
+  />
+</Base>
+
+<style>
+  .page-hero {
+    padding-block: 11rem 4rem;
+  }
+
+  .page-hero :global(.section-head) {
+    margin-block-end: 0;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+  }
+
+  .pricing-head {
+    margin-block-end: 2.6rem;
+  }
+
+  .pricing-head .eyebrow {
+    margin-block-end: 0.6rem;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .pricing-note {
+    margin-block-start: 1.9rem;
+    font-size: var(--text-sm);
+    color: var(--ink-soft);
+    max-width: 72ch;
+  }
+
+  @media (max-width: 64rem) {
+    .services-grid,
+    .pricing-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 44rem) {
+    .services-grid,
+    .pricing-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

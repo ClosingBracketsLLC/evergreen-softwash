@@ -1,0 +1,189 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '@layouts/Base.astro';
+import CtaBand from '@components/CtaBand.astro';
+import Waterline from '@components/Waterline.astro';
+import { images } from '@data/images';
+import { site } from '@config';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const photo = images[post.data.image as keyof typeof images];
+const fmt = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.publishDate.toISOString(),
+  author: { '@type': 'Organization', name: site.name, url: site.domain },
+  publisher: { '@id': `${site.domain}/#business` },
+  mainEntityOfPage: `${site.domain}/blog/${post.id}/`,
+};
+---
+
+<Base
+  title={post.data.title}
+  description={post.data.description}
+  ogImage={post.data.image as keyof typeof images}
+  schema={[articleSchema]}
+>
+  <article>
+    <header class="post-hero tone-dark">
+      <div class="container post-hero-inner">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/blog/">Journal</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">{post.data.category}</span>
+        </nav>
+        <h1>{post.data.title}</h1>
+        <Waterline />
+        <p class="post-hero-meta">
+          <time datetime={post.data.publishDate.toISOString()}>
+            {fmt.format(post.data.publishDate)}
+          </time>
+          · The Evergreen crew
+        </p>
+      </div>
+    </header>
+
+    <figure class="post-figure container" data-reveal>
+      <Image
+        src={photo}
+        alt={post.data.imageAlt}
+        widths={[720, 1080, 1440]}
+        sizes="(max-width: 76rem) 92vw, 72rem"
+        loading="eager"
+        fetchpriority="high"
+        quality="mid"
+      />
+    </figure>
+
+    <div class="post-content container">
+      <Content />
+    </div>
+  </article>
+
+  <CtaBand
+    title="Put the crew to work instead"
+    lede="Every guide on this journal describes something we do every week. Skip the weekend project — request a quote."
+  />
+</Base>
+
+<style>
+  .post-hero {
+    padding-block: 11rem 3.5rem;
+  }
+
+  .post-hero h1 {
+    font-size: var(--step-h2);
+    color: var(--white);
+    max-width: 22ch;
+  }
+
+  .crumbs {
+    display: flex;
+    gap: 0.6rem;
+    margin-block-end: 1.4rem;
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--seaglass) 70%, transparent);
+  }
+
+  .crumbs a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .crumbs a:hover,
+  .crumbs [aria-current] {
+    color: var(--ice);
+  }
+
+  .post-hero-meta {
+    font-size: var(--text-sm);
+    color: color-mix(in srgb, var(--seaglass) 70%, transparent);
+  }
+
+  .post-figure {
+    margin-block: -2.25rem 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .post-figure img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .post-content {
+    max-width: 46rem;
+    padding-block: var(--space-section);
+  }
+
+  .post-content :global(h2) {
+    margin-block: 2.4rem 0.9rem;
+  }
+
+  .post-content :global(h3) {
+    margin-block: 1.9rem 0.7rem;
+  }
+
+  .post-content :global(p) {
+    margin-block-end: 1.1rem;
+    line-height: 1.75;
+  }
+
+  .post-content :global(ul),
+  .post-content :global(ol) {
+    margin-block: 0 1.1rem;
+    padding-inline-start: 1.3rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .post-content :global(blockquote) {
+    margin: 1.75rem 0;
+    padding: 1.1rem 1.5rem;
+    border-inline-start: 3px solid var(--river);
+    background: var(--seaglass);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    font-style: italic;
+  }
+
+  .post-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: 1.5rem;
+    font-size: var(--text-sm);
+  }
+
+  .post-content :global(th),
+  .post-content :global(td) {
+    padding: 0.7rem 0.9rem;
+    text-align: left;
+    border-bottom: 1px solid var(--seaglass-deep);
+  }
+
+  .post-content :global(th) {
+    font-size: var(--text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--evergreen);
+  }
+</style>

@@ -1,0 +1,171 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '@layouts/Base.astro';
+import SectionHead from '@components/SectionHead.astro';
+import CtaBand from '@components/CtaBand.astro';
+import { images } from '@data/images';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+const fmt = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<Base
+  title="The Evergreen Journal — Exterior Care, Explained"
+  description="Practical guides on soft washing, pressure washing, and detailing from the Evergreen Softwash crew: what your surfaces need, when, and why."
+>
+  <section class="journal-hero tone-dark">
+    <div class="container">
+      <SectionHead
+        as="h1"
+        eyebrow="The Evergreen Journal"
+        title="Exterior care, explained honestly"
+        lede="No scare tactics, no upsells — just what Northwest weather does to fine surfaces, and what actually works against it."
+      />
+    </div>
+  </section>
+
+  <section class="section tone-pale">
+    <div class="container-wide">
+      <div class="journal-grid">
+        {
+          posts.map((post, i) => (
+            <a class="post-card" href={`/blog/${post.id}/`} data-reveal>
+              <div class="post-media">
+                <Image
+                  src={images[post.data.image as keyof typeof images]}
+                  alt={post.data.imageAlt}
+                  widths={[420, 640, 900]}
+                  sizes="(max-width: 44rem) 92vw, (max-width: 64rem) 46vw, 30vw"
+                  loading={i < 3 ? 'eager' : 'lazy'}
+                  quality="mid"
+                />
+              </div>
+              <div class="post-body">
+                <p class="post-meta">
+                  <span class="post-category">{post.data.category}</span>
+                  <time datetime={post.data.publishDate.toISOString()}>
+                    {fmt.format(post.data.publishDate)}
+                  </time>
+                </p>
+                <h2>{post.data.title}</h2>
+                <p class="post-desc">{post.data.description}</p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Rather just have it handled?"
+    lede="Reading about moss is optional. Removing it is what we do all day."
+  />
+</Base>
+
+<style>
+  .journal-hero {
+    padding-block: 11rem 4rem;
+  }
+
+  .journal-hero :global(.section-head) {
+    margin-block-end: 0;
+  }
+
+  .journal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+  }
+
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--ink);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  .post-card:hover {
+    transform: translateY(-0.35rem);
+  }
+
+  .post-media {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+  }
+
+  .post-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  .post-card:hover .post-media img {
+    transform: scale(1.04);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .post-card:hover .post-media img {
+      transform: none;
+    }
+  }
+
+  .post-body {
+    display: grid;
+    gap: 0.65rem;
+    padding: 1.6rem;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: var(--text-xs);
+    color: var(--ink-soft);
+  }
+
+  .post-category {
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--river);
+  }
+
+  .post-body h2 {
+    font-size: 1.6rem;
+    letter-spacing: 0.03em;
+    line-height: 1.05;
+  }
+
+  .post-desc {
+    font-size: var(--text-sm);
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 64rem) {
+    .journal-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 44rem) {
+    .journal-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

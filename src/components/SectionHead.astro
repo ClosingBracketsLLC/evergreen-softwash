@@ -1,0 +1,44 @@
+---
+import Waterline from './Waterline.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  align?: 'start' | 'center';
+  /** Heading level for the title (h2 default keeps document outline sane). */
+  as?: 'h1' | 'h2';
+}
+const { eyebrow, title, lede, align = 'start', as: Tag = 'h2' } = Astro.props;
+---
+
+<header class:list={['section-head', { 'is-center': align === 'center' }]} data-reveal>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <Tag set:html={title} />
+  <Waterline class={align === 'center' ? 'is-center' : undefined} />
+  {lede && <p class="lede">{lede}</p>}
+</header>
+
+<style>
+  .section-head {
+    max-width: 56rem;
+    margin-block-end: var(--space-block);
+  }
+
+  .section-head.is-center {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .section-head.is-center :global(.waterline) {
+    justify-content: center;
+  }
+
+  .section-head.is-center .lede {
+    margin-inline: auto;
+  }
+
+  .eyebrow {
+    margin-block-end: 0.9rem;
+  }
+</style>

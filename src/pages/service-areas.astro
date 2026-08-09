@@ -1,0 +1,147 @@
+---
+import Base from '@layouts/Base.astro';
+import SectionHead from '@components/SectionHead.astro';
+import CtaBand from '@components/CtaBand.astro';
+import { site } from '@config';
+import { services } from '@data/services';
+---
+
+<Base
+  title="Service Areas — Greater Puget Sound"
+  description={`Evergreen Softwash serves ${site.serviceAreas.slice(0, 5).join(', ')} and communities across greater Puget Sound with soft washing, pressure washing, and concierge detailing.`}
+>
+  <section class="areas-hero tone-dark">
+    <div class="container">
+      <SectionHead
+        as="h1"
+        eyebrow="Service areas"
+        title="Wherever the Sound touches, so do we"
+        lede="Home base is Gig Harbor; our crews route daily across the waterfront communities, islands, and estate neighborhoods of greater Puget Sound."
+      />
+    </div>
+  </section>
+
+  <section class="section tone-pale">
+    <div class="container">
+      <div class="areas-grid">
+        {
+          site.serviceAreas.map((area) => (
+            <div class="area-card" data-reveal>
+              <h2>{area}</h2>
+              <p>
+                Soft washing, pressure washing &amp; detailing in {area},{' '}
+                {site.address.region}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+      <div class="areas-note" data-reveal>
+        <p>
+          Beyond the map? Aircraft and vessel work often is. We travel for hangars, marinas,
+          and estates throughout Western Washington — <a href="/contact/">ask us</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        eyebrow="Every area, every service"
+        title="The full suite travels with us"
+        lede="Crews arrive self-contained — water, power, reclamation, and lighting — so every service below is available across all of our service areas."
+      />
+      <ul class="areas-services" data-reveal>
+        {
+          services.map((s) => (
+            <li>
+              <a href={`/services/${s.slug}/`}>{s.name}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .areas-hero {
+    padding-block: 11rem 4rem;
+  }
+
+  .areas-hero :global(.section-head) {
+    margin-block-end: 0;
+  }
+
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .area-card {
+    padding: 1.6rem 1.75rem;
+    background: var(--white);
+    border: 1px solid var(--seaglass-deep);
+    border-radius: var(--radius-lg);
+  }
+
+  .area-card h2 {
+    font-size: 1.5rem;
+    letter-spacing: 0.05em;
+    color: var(--evergreen);
+  }
+
+  .area-card p {
+    margin-block-start: 0.35rem;
+    font-size: var(--text-sm);
+    color: var(--ink-soft);
+  }
+
+  .areas-note {
+    margin-block-start: 2rem;
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+
+  .areas-services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .areas-services a {
+    display: inline-block;
+    padding: 0.65rem 1.3rem;
+    background: var(--seaglass);
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--evergreen);
+    transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
+  }
+
+  .areas-services a:hover {
+    background: var(--evergreen);
+    color: var(--white);
+  }
+
+  @media (max-width: 60rem) {
+    .areas-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .areas-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

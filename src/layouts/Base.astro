@@ -1,0 +1,137 @@
+---
+import '@fontsource/bebas-neue/latin-400.css';
+import '@fontsource/barlow/latin-400.css';
+import '@fontsource/barlow/latin-600.css';
+import 'lenis/dist/lenis.css';
+import '../styles/global.css';
+
+import bebasWoff2 from '@fontsource/bebas-neue/files/bebas-neue-latin-400-normal.woff2?url';
+import barlowWoff2 from '@fontsource/barlow/files/barlow-latin-400-normal.woff2?url';
+
+import { getImage } from 'astro:assets';
+import { site } from '@config';
+import { images } from '@data/images';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Key into the image registry used for og:image (defaults to the dusk estate). */
+  ogImage?: keyof typeof images;
+  /** Extra JSON-LD blocks for this page (LocalBusiness is always included). */
+  schema?: Record<string, unknown>[];
+}
+
+const { title, description, ogImage = 'estateDusk', schema = [] } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.domain).href;
+const fullTitle = `${title} | ${site.name}`;
+// og:image stays JPEG on purpose — several share crawlers still reject WebP cards.
+const og = await getImage({ src: images[ogImage], width: 1200, height: 630, fit: 'cover', format: 'jpeg' });
+const ogUrl = new URL(og.src, site.domain).href;
+
+const localBusiness = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${site.domain}/#business`,
+  name: site.name,
+  legalName: site.legalName,
+  description: site.description,
+  url: site.domain,
+  telephone: site.phone,
+  email: site.email,
+  image: ogUrl,
+  logo: new URL('/icon-512.png', site.domain).href,
+  priceRange: '$$$',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.address.locality,
+    addressRegion: site.address.region,
+    postalCode: site.address.postalCode,
+    addressCountry: site.address.country,
+  },
+  areaServed: site.serviceAreas.map((name) => ({ '@type': 'City', name })),
+  openingHours: site.openingHoursSchema,
+  sameAs: Object.values(site.social),
+};
+
+const schemaBlocks = [localBusiness, ...schema];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="preload" href={bebasWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={barlowWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/icon-256.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/icon-256.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${site.name} Journal`} href="/rss.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+
+    <meta name="theme-color" content="#041710" />
+    <script is:inline>document.documentElement.dataset.js = '';</script>
+
+    {schemaBlocks.map((block) => (
+      <script type="application/ld+json" set:html={JSON.stringify(block)} />
+    ))}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      import Lenis from 'lenis';
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Smooth scrolling — skipped entirely for reduced-motion users.
+      if (!prefersReduced) {
+        new Lenis({ autoRaf: true, anchors: true });
+      }
+
+      // Scroll-reveal for elements opting in with data-reveal.
+      const targets = document.querySelectorAll('[data-reveal]');
+      if (prefersReduced || !('IntersectionObserver' in window)) {
+        targets.forEach((el) => el.classList.add('is-revealed'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-revealed');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -5% 0px' }
+        );
+        targets.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>
