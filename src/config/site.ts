@@ -56,8 +56,7 @@ export const site = {
 
   // Quote form relays through Web3Forms (https://web3forms.com — no account, key arrives by email).
   formEndpoint: 'https://api.web3forms.com/submit',
-  // TODO(client): paste the Web3Forms access key here before launch; submissions fail until then.
-  web3formsKey: 'REPLACE_WITH_ACCESS_KEY',
+  web3formsKey: '2f5caffb-c23b-4d16-91e2-4d31250e7310',
 } as const;
 
 export const nav = [
