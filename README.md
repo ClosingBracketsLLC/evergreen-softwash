@@ -40,7 +40,7 @@ npm run preview   # serve the production build locally
 2. **Domain** — `astro.config.mjs` (`site`) and `public/robots.txt` use the bare `evergreensoftwash.com` (primary on Render; www 301s to it).
 3. **Social URLs** — `src/config/site.ts` (`social`).
 4. **Service areas / city** — `src/config/site.ts` if the business bases anywhere other than Gig Harbor, WA.
-5. **Mailboxes** — phone `(253) 272-2633` and the `@evergreensoftwash.com` addresses (`info`, `support`, `sales`, `admin`, `billing`) are set in `src/config/site.ts`; the mailboxes themselves still need to be created once the domain has email hosting (e.g. Cloudflare Email Routing or Google Workspace).
+5. **Mailboxes** — phone `(509) 272-2633` and the `@evergreensoftwash.com` addresses (`info`, `support`, `sales`, `admin`, `billing`) are set in `src/config/site.ts`; the mailboxes themselves still need to be created once the domain has email hosting (e.g. Cloudflare Email Routing or Google Workspace).
 
 ## Brand
 

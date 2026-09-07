@@ -10,8 +10,8 @@ export const site = {
   description:
     'Luxury soft washing, pressure washing, and concierge detailing for fine homes, vehicles, aircraft, and watercraft across greater Puget Sound.',
 
-  phone: '(253) 272-2633',
-  phoneHref: 'tel:+12532722633',
+  phone: '(509) 272-2633',
+  phoneHref: 'tel:+15092722633',
   /** General/public address — used in schema, the footer, and anywhere unspecific. */
   email: 'info@evergreensoftwash.com',
   /** Departmental mailboxes for specific contexts. */
