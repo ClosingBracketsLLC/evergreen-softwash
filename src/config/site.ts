@@ -10,10 +10,18 @@ export const site = {
   description:
     'Luxury soft washing, pressure washing, and concierge detailing for fine homes, vehicles, aircraft, and watercraft across greater Puget Sound.',
 
-  // TODO(client): replace placeholder contact details before launch.
-  phone: '(253) 555-0148',
-  phoneHref: 'tel:+12535550148',
-  email: 'hello@evergreensoftwash.com',
+  phone: '(253) 272-2633',
+  phoneHref: 'tel:+12532722633',
+  /** General/public address — used in schema, the footer, and anywhere unspecific. */
+  email: 'info@evergreensoftwash.com',
+  /** Departmental mailboxes for specific contexts. */
+  emails: {
+    support: 'support@evergreensoftwash.com',
+    admin: 'admin@evergreensoftwash.com',
+    sales: 'sales@evergreensoftwash.com',
+    info: 'info@evergreensoftwash.com',
+    billing: 'billing@evergreensoftwash.com',
+  },
 
   address: {
     locality: 'Gig Harbor',

@@ -36,11 +36,11 @@ npm run preview   # serve the production build locally
 
 ## Before launch — placeholders to replace
 
-1. **Phone number** — `src/config/site.ts` (`phone`, `phoneHref`) currently uses a 555 placeholder.
-2. **Form endpoint** — `src/config/site.ts` (`formEndpoint`): create a Formspree/Basin form (or switch to Netlify Forms) and paste the URL.
-3. **Domain** — `astro.config.mjs` (`site`) and `public/robots.txt` assume `www.evergreensoftwash.com`.
-4. **Social URLs** — `src/config/site.ts` (`social`).
-5. **Service areas / city** — `src/config/site.ts` if the business bases anywhere other than Gig Harbor, WA.
+1. **Form endpoint** — `src/config/site.ts` (`formEndpoint`): create a Formspree/Basin form (or switch to Netlify Forms) and paste the URL.
+2. **Domain** — `astro.config.mjs` (`site`) and `public/robots.txt` assume `www.evergreensoftwash.com`.
+3. **Social URLs** — `src/config/site.ts` (`social`).
+4. **Service areas / city** — `src/config/site.ts` if the business bases anywhere other than Gig Harbor, WA.
+5. **Mailboxes** — phone `(253) 272-2633` and the `@evergreensoftwash.com` addresses (`info`, `support`, `sales`, `admin`, `billing`) are set in `src/config/site.ts`; the mailboxes themselves still need to be created once the domain has email hosting (e.g. Cloudflare Email Routing or Google Workspace).
 
 ## Brand
 
