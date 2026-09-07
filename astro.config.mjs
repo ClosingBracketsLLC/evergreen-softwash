@@ -5,7 +5,12 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.evergreensoftwash.com',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // Post-submit confirmation page — noindexed, so keep it out of the sitemap too.
+      filter: (page) => !page.includes('/thanks/'),
+    }),
+  ],
   image: {
     // Generated marketing photography is remote-free; all images are local & optimized at build.
     responsiveStyles: true,

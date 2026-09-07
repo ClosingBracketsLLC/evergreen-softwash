@@ -54,8 +54,10 @@ export const site = {
     youtube: 'https://www.youtube.com/@evergreensoftwash',
   },
 
-  // TODO(client): point at a live form endpoint (Formspree, Basin, Netlify Forms…).
-  formEndpoint: 'https://formspree.io/f/REPLACE_ME',
+  // Quote form relays through Web3Forms (https://web3forms.com — no account, key arrives by email).
+  formEndpoint: 'https://api.web3forms.com/submit',
+  // TODO(client): paste the Web3Forms access key here before launch; submissions fail until then.
+  web3formsKey: 'REPLACE_WITH_ACCESS_KEY',
 } as const;
 
 export const nav = [

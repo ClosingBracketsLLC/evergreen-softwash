@@ -1,0 +1,88 @@
+---
+import Base from '@layouts/Base.astro';
+import Button from '@components/Button.astro';
+import Waterline from '@components/Waterline.astro';
+import { site } from '@config';
+---
+
+<Base
+  title="Request Received"
+  description="Your quote request is in. We review the details and reply with a fixed written quote within one business day."
+  noindex
+>
+  <section class="thanks tone-dark">
+    <div class="container thanks-inner">
+      <p class="eyebrow">Request received</p>
+      <h1>Consider it<br />in hand</h1>
+      <Waterline />
+      <p class="lede">
+        We're reviewing your details now. A fixed written quote — no ranges, no surprises —
+        lands in your inbox within one business day.
+      </p>
+      <ul class="thanks-steps">
+        <li>We review your details and aerial imagery of the property.</li>
+        <li>You receive a fixed written quote by email.</li>
+        <li>We schedule around your calendar, not ours.</li>
+      </ul>
+      <div class="thanks-actions">
+        <Button href="/" variant="ice">Back to home</Button>
+        <Button href={site.phoneHref} variant="ghost">Sooner? Call {site.phone}</Button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .thanks {
+    display: grid;
+    align-items: center;
+    min-height: 88svh;
+    padding-block: 11rem 5rem;
+  }
+
+  .thanks h1 {
+    color: var(--white);
+  }
+
+  .thanks .eyebrow {
+    color: var(--ice);
+    margin-block-end: 1rem;
+  }
+
+  .thanks .lede {
+    color: color-mix(in srgb, var(--seaglass) 85%, transparent);
+  }
+
+  .thanks-steps {
+    list-style: none;
+    margin: 1.8rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.8rem;
+    max-width: 46ch;
+  }
+
+  .thanks-steps li {
+    display: flex;
+    gap: 0.75rem;
+    color: color-mix(in srgb, var(--seaglass) 80%, transparent);
+  }
+
+  .thanks-steps li::before {
+    content: '';
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-block-start: 0.5em;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    background: var(--ice);
+  }
+
+  .thanks-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-block-start: 2.4rem;
+  }
+</style>

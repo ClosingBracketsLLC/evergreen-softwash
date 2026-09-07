@@ -5,6 +5,22 @@ import Icon from './Icon.astro';
 ---
 
 <form class="quote-form" action={site.formEndpoint} method="POST" data-reveal>
+  <!-- Web3Forms routing -->
+  <input type="hidden" name="access_key" value={site.web3formsKey} />
+  <input type="hidden" name="subject" value="New quote request — evergreensoftwash.com" />
+  <input type="hidden" name="from_name" value="Evergreen Softwash website" />
+  <input type="hidden" name="redirect" value={`${site.domain}/thanks/`} />
+  <!-- Honeypot: invisible to people (clipped, no tab stop, hidden from AT) but present in the
+       DOM for bots to fill. Any value marks the submission as spam on the Web3Forms side.
+       Deliberately NOT display:none — smarter bots skip fields they can see are hidden. -->
+  <input
+    type="checkbox"
+    name="botcheck"
+    class="botcheck"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+  />
   <div class="form-row">
     <div class="form-field">
       <label for="qf-name">Full name</label>
@@ -77,6 +93,15 @@ import Icon from './Icon.astro';
     border: 1px solid var(--seaglass-deep);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-card);
+  }
+
+  .botcheck {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
   }
 
   .form-row {

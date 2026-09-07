@@ -21,9 +21,11 @@ interface Props {
   ogImage?: keyof typeof images;
   /** Extra JSON-LD blocks for this page (LocalBusiness is always included). */
   schema?: Record<string, unknown>[];
+  /** Keep this page out of search results (utility pages like /thanks/). */
+  noindex?: boolean;
 }
 
-const { title, description, ogImage = 'estateDusk', schema = [] } = Astro.props;
+const { title, description, ogImage = 'estateDusk', schema = [], noindex = false } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, site.domain).href;
 const fullTitle = `${title} | ${site.name}`;
@@ -66,6 +68,7 @@ const schemaBlocks = [localBusiness, ...schema];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
     <link rel="preload" href={bebasWoff2} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={barlowWoff2} as="font" type="font/woff2" crossorigin />
