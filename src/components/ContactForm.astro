@@ -1,6 +1,7 @@
 ---
 import { site } from '@config';
 import { services } from '@data/services';
+import Icon from './Icon.astro';
 ---
 
 <form class="quote-form" action={site.formEndpoint} method="POST" data-reveal>
@@ -59,6 +60,12 @@ import { services } from '@data/services';
     We reply within one business day. Prefer to talk? Call
     <a href={site.phoneHref}>{site.phone}</a>.
   </p>
+
+  <ul class="form-trust" aria-label="Assurances">
+    <li><Icon name="shield" size={16} /> Licensed &amp; insured</li>
+    <li><Icon name="droplet" size={16} /> 2-year algae-free promise</li>
+    <li><Icon name="file" size={16} /> COI available before work begins</li>
+  </ul>
 </form>
 
 <style>
@@ -174,5 +181,32 @@ import { services } from '@data/services';
   .form-note {
     font-size: var(--text-sm);
     color: var(--ink-soft);
+  }
+
+  .form-trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 1.1rem 0 0;
+    border-block-start: 1px solid var(--seaglass-deep);
+  }
+
+  .form-trust li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* :global — the svg comes from <Icon /> and never gets this component's scope class */
+  .form-trust :global(svg) {
+    flex: none;
+    color: var(--river);
   }
 </style>

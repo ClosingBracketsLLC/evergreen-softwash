@@ -128,7 +128,9 @@ const schemaBlocks = [localBusiness, ...schema];
               }
             }
           },
-          { threshold: 0.15, rootMargin: '0px 0px -5% 0px' }
+          // threshold 0: a ratio threshold never fires for elements that only
+          // peek above the fold (e.g. the contact form at laptop heights).
+          { rootMargin: '0px 0px -10% 0px' }
         );
         targets.forEach((el) => io.observe(el));
       }

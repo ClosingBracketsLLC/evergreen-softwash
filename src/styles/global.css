@@ -232,6 +232,15 @@ html[data-js] [data-reveal].is-revealed {
   transform: none;
 }
 
+/* Below-fold reveals never fire when printing straight from load */
+@media print {
+  html[data-js] [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html[data-js] [data-reveal] {
     opacity: 1;

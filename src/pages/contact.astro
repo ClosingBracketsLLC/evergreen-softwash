@@ -92,7 +92,8 @@ import { generalFaqs } from '@data/faqs';
     border-radius: var(--radius-lg);
   }
 
-  .contact-block svg {
+  /* :global — the svg comes from <Icon /> and never gets this page's scope class */
+  .contact-block :global(svg) {
     color: var(--river);
     margin-block-end: 0.8rem;
   }

@@ -1,6 +1,6 @@
 ---
 import { site, nav } from '@config';
-import logoWordmarkWhite from '../assets/brand/EGSW_logo_wordmark_color.svg';
+import logoWordmarkWhite from '../assets/brand/EGSW_logo_wordmark_white.svg';
 import Icon from './Icon.astro';
 
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -240,9 +240,29 @@ const isActive = (href: string) => {
   const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
   const menu = document.getElementById('nav-menu');
 
-  toggle?.addEventListener('click', () => {
-    const open = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!open));
-    menu?.classList.toggle('is-open', !open);
+  const isOpen = () => toggle?.getAttribute('aria-expanded') === 'true';
+  const setOpen = (open: boolean) => {
+    toggle?.setAttribute('aria-expanded', String(open));
+    menu?.classList.toggle('is-open', open);
+  };
+
+  toggle?.addEventListener('click', () => setOpen(!isOpen()));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen()) {
+      setOpen(false);
+      toggle?.focus();
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (
+      isOpen() &&
+      e.target instanceof Node &&
+      !menu?.contains(e.target) &&
+      !toggle?.contains(e.target)
+    ) {
+      setOpen(false);
+    }
   });
 </script>
