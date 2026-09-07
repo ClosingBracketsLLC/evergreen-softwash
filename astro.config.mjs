@@ -4,7 +4,8 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://www.evergreensoftwash.com',
+  // Bare domain is primary — Render 301s www.evergreensoftwash.com here.
+  site: 'https://evergreensoftwash.com',
   integrations: [
     sitemap({
       // Post-submit confirmation page — noindexed, so keep it out of the sitemap too.

@@ -37,7 +37,7 @@ npm run preview   # serve the production build locally
 ## Before launch — placeholders to replace
 
 1. **Web3Forms access key** — get one at [web3forms.com](https://web3forms.com) (enter the email that should receive leads; no account needed) and paste it into `web3formsKey` in `src/config/site.ts`. Submissions fail until this is set. Spam defenses already wired: honeypot (`botcheck`) + Web3Forms server-side filtering; if spam volume ever appears, add their captcha integration on top.
-2. **Domain** — `astro.config.mjs` (`site`) and `public/robots.txt` assume `www.evergreensoftwash.com`.
+2. **Domain** — `astro.config.mjs` (`site`) and `public/robots.txt` use the bare `evergreensoftwash.com` (primary on Render; www 301s to it).
 3. **Social URLs** — `src/config/site.ts` (`social`).
 4. **Service areas / city** — `src/config/site.ts` if the business bases anywhere other than Gig Harbor, WA.
 5. **Mailboxes** — phone `(253) 272-2633` and the `@evergreensoftwash.com` addresses (`info`, `support`, `sales`, `admin`, `billing`) are set in `src/config/site.ts`; the mailboxes themselves still need to be created once the domain has email hosting (e.g. Cloudflare Email Routing or Google Workspace).

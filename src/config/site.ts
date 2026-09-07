@@ -5,7 +5,7 @@
 export const site = {
   name: 'Evergreen Softwash',
   legalName: 'Evergreen Softwash LLC',
-  domain: 'https://www.evergreensoftwash.com',
+  domain: 'https://evergreensoftwash.com',
   tagline: 'Estate-grade exterior care',
   description:
     'Luxury soft washing, pressure washing, and concierge detailing for fine homes, vehicles, aircraft, and watercraft across greater Puget Sound.',
